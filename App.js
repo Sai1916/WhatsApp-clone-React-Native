@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity, Image } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Chats from './src/screens/Chats';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer,useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { EvilIcons,SimpleLineIcons,Fontisto } from '@expo/vector-icons'; 
+import { EvilIcons,SimpleLineIcons,Fontisto,Ionicons,MaterialCommunityIcons } from '@expo/vector-icons'; 
 import Status from './src/screens/Status';
 import Calls from './src/screens/Calls';
 import CameraScreen from './src/screens/CameraScreen';
@@ -14,6 +14,7 @@ import ChatScreen from './src/screens/ChatScreen';
 const Tab = createMaterialTopTabNavigator();
 
 const Stack = createStackNavigator();
+
 
 export default function App() {
 
@@ -40,14 +41,39 @@ export default function App() {
                   <EvilIcons name="search" size={30} color="white" style={styles.icon} />
                 </TouchableOpacity>
                 <TouchableOpacity>
-                  <SimpleLineIcons name="options-vertical" size={18} color="white"  style={styles.icon} />
+                  <MaterialCommunityIcons name="dots-vertical" size={26} color="white" style={styles.icon} />
                 </TouchableOpacity>
               </View>
             )
           }}
           component={TabNavigation} 
         />
-        <Stack.Screen name="ChatScreen" component={ChatScreen} />
+        <Stack.Screen 
+          name="ChatScreen" 
+          component={ChatScreen} 
+          options={({ route }) => ({ 
+            title: route.params.chatData.name,
+            headerRight: () => ( 
+              <View style={styles.icons}>
+                <TouchableOpacity>
+                  <Ionicons name="call-outline" size={26} color="white" style={styles.icon} />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Ionicons name="videocam-outline" size={26} color="white" style={styles.icon} />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <MaterialCommunityIcons name="dots-vertical" size={26} color="white" style={styles.icon} />
+                </TouchableOpacity>
+              </View>
+            ),
+            // headerLeft: () => (
+            //   <TouchableOpacity style={styles.headerLeft}>
+            //     <Ionicons name="ios-arrow-back" size={26} color="white" style={styles.icon} />
+            //     <Image source={{uri: route.params.chatData.imageUri}} style={styles.image} />
+            //   </TouchableOpacity>
+            // )
+          })}
+        />
       </Stack.Navigator>
     );
   }
@@ -93,7 +119,7 @@ export default function App() {
         <RootNavigation />
         <StatusBar style="light" />
       </NavigationContainer>
-  );
+  ); 
 }
 
 const styles = StyleSheet.create({
@@ -107,6 +133,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   icon:{
-      marginHorizontal: 14,
+      marginHorizontal: 12,
+  },
+  image:{
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+  },  
+  headerLeft:{
+    flexDirection: 'row',
+    alignItems: 'center', 
   }
 });

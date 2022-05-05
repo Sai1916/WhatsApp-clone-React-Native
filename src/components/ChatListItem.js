@@ -1,26 +1,28 @@
-import { StyleSheet, Text,View,Image,TouchableOpacity } from 'react-native'
+import { StyleSheet, Text,View,Image,TouchableWithoutFeedback } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import moment from 'moment';
 
 const ChatListItem = ({chats}) => {
-
+ 
     const navigation = useNavigation();
 
   return (
-    <TouchableOpacity style={styles.container} activeOpacity={0.6} onPress={() =>  navigation.navigate('ChatScreen',{
+    <TouchableWithoutFeedback onPress={() =>  navigation.navigate('ChatScreen',{
         chatData: chats.users[1]
     })}>
-        <View style={styles.leftContainer}>
-            <Image source={{uri: chats.users[1].imageUri}} style={styles.image} />
-            <View style={styles.textContainer}>
-                <Text style={styles.name}>{chats.users[1].name}</Text>
-                <Text style={styles.lastMessage}>{chats.lastMessage.content}</Text>
-            </View>
-        </View> 
-         <Text style={styles.timestamp}>{moment(chats.lastMessage.createdAt).format('DD/MM/YYYY')}</Text>
+        <View style={styles.container}>
+            <View style={styles.leftContainer}>
+                <Image source={{uri: chats.users[1].imageUri}} style={styles.image} />
+                <View style={styles.textContainer}>
+                    <Text style={styles.name}>{chats.users[1].name}</Text>
+                    <Text style={styles.lastMessage}>{chats.lastMessage.content}</Text>
+                </View>
+            </View> 
+            <Text style={styles.timestamp}>{moment(chats.lastMessage.createdAt).format('DD/MM/YYYY')}</Text>
         {/* <Text style={styles.timestamp}>Yesterday</Text> */}
-    </TouchableOpacity>
+        </View>
+    </TouchableWithoutFeedback>
   )
 }
 
